@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharm Match - Drug Attribute Matching Game</title>
+    <link rel="stylesheet" href="styles.css">
+    <!-- SheetJS for Excel file support -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.18.5/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>💊 Pharm Match</h1>
+            <p class="subtitle">Select the 5 correct attributes for each drug</p>
+        </header>
+
+        <!-- Setup Panel -->
+        <section id="setup-panel" class="panel">
+            <h2>Load Study Material</h2>
+
+            <div class="tabs">
+                <button class="tab-btn active" data-tab="import">Import File</button>
+                <button class="tab-btn" data-tab="sample">Use Sample Data</button>
+            </div>
+
+            <div id="import-tab" class="tab-content active">
+                <div class="import-section">
+                    <p>Upload an Excel, CSV, or JSON file with drug data.</p>
+                    <p class="hint">Expected columns: Drug Name, Mechanism of Action, Clinical Indications, Adverse Events, Drug Interactions, Contraindications</p>
+
+                    <div class="file-format-info">
+                        <details>
+                            <summary>Excel Format (.xlsx, .xls)</summary>
+                            <pre>Your Excel file should have these column headers:
+• Drug Name
+• Mechanism of Action
+• Clinical Indications
+• Adverse Events
+• Drug Interactions
+• Contraindications</pre>
+                        </details>
+                        <details>
+                            <summary>CSV Format</summary>
+                            <pre>Drug Name,Mechanism of Action,Clinical Indications,Adverse Events,Drug Interactions,Contraindications
+Aspirin,COX inhibitor,Pain relief,Bleeding,Warfarin,Active ulcer</pre>
+                        </details>
+                        <details>
+                            <summary>JSON Format</summary>
+                            <pre>[{
+  "Drug Name": "Aspirin",
+  "Mechanism of Action": "COX inhibitor",
+  "Clinical Indications": "Pain relief",
+  "Adverse Events": "Bleeding",
+  "Drug Interactions": "Warfarin",
+  "Contraindications": "Active ulcer"
+}]</pre>
+                        </details>
+                    </div>
+
+                    <input type="file" id="file-input" accept=".json,.csv,.xlsx,.xls" hidden>
+                    <button class="btn btn-secondary" id="upload-btn">📁 Choose File</button>
+                    <span id="file-name"></span>
+                </div>
+            </div>
+
+            <div id="sample-tab" class="tab-content">
+                <div class="sample-section">
+                    <p>Load sample pharmacology data to try the game.</p>
+                    <button class="btn btn-secondary" id="load-sample-btn">Load Sample Data</button>
+                </div>
+            </div>
+
+            <div id="data-preview" class="hidden">
+                <h3>Loaded Data</h3>
+                <p><strong id="drug-count">0</strong> drugs loaded</p>
+                <div id="drug-list-preview"></div>
+            </div>
+
+            <div class="setup-actions">
+                <button class="btn btn-success" id="start-game-btn" disabled>🎮 Start Game</button>
+                <button class="btn btn-danger" id="clear-data-btn" disabled>Clear Data</button>
+            </div>
+        </section>
+
+        <!-- Game Panel -->
+        <section id="game-panel" class="panel hidden">
+            <div class="game-header">
+                <div class="progress-info">
+                    <span>Drug <strong id="current-drug-num">1</strong> of <strong id="total-drugs">10</strong></span>
+                    <span>Score: <strong id="score">0</strong></span>
+                </div>
+                <button class="btn btn-secondary btn-sm" id="back-to-setup-btn">← Back</button>
+            </div>
+
+            <div class="drug-display">
+                <h2 id="drug-name">Drug Name</h2>
+                <p class="instruction">Select 1 attribute from each category (5 total)</p>
+            </div>
+
+            <div class="selection-tracker">
+                <span class="tracker-item" data-category="moa">MOA</span>
+                <span class="tracker-item" data-category="indications">Indications</span>
+                <span class="tracker-item" data-category="adverse">Adverse Events</span>
+                <span class="tracker-item" data-category="interactions">Interactions</span>
+                <span class="tracker-item" data-category="contraindications">Contraindications</span>
+            </div>
+
+            <div class="options-grid" id="options-container">
+                <!-- Options will be generated here -->
+            </div>
+
+            <div class="game-actions">
+                <button class="btn btn-primary" id="submit-btn" disabled>Submit Answers</button>
+                <button class="btn btn-secondary" id="skip-btn">Skip Drug</button>
+            </div>
+
+            <div id="feedback" class="feedback hidden">
+                <div id="feedback-content"></div>
+                <button class="btn btn-primary" id="next-drug-btn">Next Drug →</button>
+            </div>
+        </section>
+
+        <!-- Results Panel -->
+        <section id="results-panel" class="panel hidden">
+            <h2>🎉 Game Complete!</h2>
+            <div class="results-summary">
+                <div class="result-stat">
+                    <span class="stat-value" id="final-score">0</span>
+                    <span class="stat-label">Final Score</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-value" id="correct-drugs">0</span>
+                    <span class="stat-label">Perfect Matches</span>
+                </div>
+                <div class="result-stat">
+                    <span class="stat-value" id="accuracy">0%</span>
+                    <span class="stat-label">Accuracy</span>
+                </div>
+            </div>
+
+            <div id="review-section">
+                <h3>Review Missed Items</h3>
+                <div id="missed-items"></div>
+            </div>
+
+            <div class="results-actions">
+                <button class="btn btn-primary" id="play-again-btn">Play Again</button>
+                <button class="btn btn-secondary" id="new-set-btn">New Study Set</button>
+            </div>
+        </section>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,594 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+:root {
+    --primary: #6366f1;
+    --primary-hover: #4f46e5;
+    --success: #10b981;
+    --success-light: #d1fae5;
+    --danger: #ef4444;
+    --danger-light: #fee2e2;
+    --warning: #f59e0b;
+    --secondary: #64748b;
+    --secondary-hover: #475569;
+    --bg: #f1f5f9;
+    --card-bg: #ffffff;
+    --text: #1e293b;
+    --text-light: #64748b;
+    --border: #e2e8f0;
+
+    /* Category colors */
+    --moa: #8b5cf6;
+    --moa-light: #ede9fe;
+    --indications: #3b82f6;
+    --indications-light: #dbeafe;
+    --adverse: #ef4444;
+    --adverse-light: #fee2e2;
+    --interactions: #f59e0b;
+    --interactions-light: #fef3c7;
+    --contraindications: #ec4899;
+    --contraindications-light: #fce7f3;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.6;
+    min-height: 100vh;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 1.5rem;
+}
+
+header {
+    text-align: center;
+    margin-bottom: 1.5rem;
+}
+
+header h1 {
+    font-size: 2.25rem;
+    color: var(--primary);
+    margin-bottom: 0.25rem;
+}
+
+.subtitle {
+    color: var(--text-light);
+    font-size: 1rem;
+}
+
+/* Panels */
+.panel {
+    background: var(--card-bg);
+    border-radius: 16px;
+    padding: 1.5rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
+}
+
+.hidden {
+    display: none !important;
+}
+
+/* Tabs */
+.tabs {
+    display: flex;
+    gap: 0.5rem;
+    margin-bottom: 1.5rem;
+    border-bottom: 2px solid var(--border);
+    padding-bottom: 0.5rem;
+}
+
+.tab-btn {
+    padding: 0.625rem 1.25rem;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    font-size: 0.95rem;
+    color: var(--text-light);
+    border-radius: 8px 8px 0 0;
+    transition: all 0.2s;
+}
+
+.tab-btn:hover {
+    background: var(--bg);
+    color: var(--text);
+}
+
+.tab-btn.active {
+    background: var(--primary);
+    color: white;
+}
+
+.tab-content {
+    display: none;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+/* Import Section */
+.import-section, .sample-section {
+    text-align: center;
+    padding: 1.5rem;
+}
+
+.hint {
+    font-size: 0.85rem;
+    color: var(--text-light);
+    margin-top: 0.5rem;
+}
+
+.file-format-info {
+    text-align: left;
+    margin: 1.5rem auto;
+    max-width: 500px;
+}
+
+.file-format-info details {
+    margin-bottom: 0.5rem;
+}
+
+.file-format-info summary {
+    cursor: pointer;
+    padding: 0.5rem 0.75rem;
+    background: var(--bg);
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.file-format-info pre {
+    background: var(--text);
+    color: #e2e8f0;
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-top: 0.5rem;
+    font-size: 0.8rem;
+    overflow-x: auto;
+    white-space: pre-wrap;
+}
+
+#file-name {
+    margin-left: 0.75rem;
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Data Preview */
+#data-preview {
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+#drug-list-preview {
+    max-height: 150px;
+    overflow-y: auto;
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 0.75rem;
+    margin-top: 0.5rem;
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border: none;
+    border-radius: 8px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+.btn-sm {
+    padding: 0.5rem 1rem;
+    font-size: 0.875rem;
+}
+
+.btn-primary {
+    background: var(--primary);
+    color: white;
+}
+
+.btn-primary:hover:not(:disabled) {
+    background: var(--primary-hover);
+}
+
+.btn-success {
+    background: var(--success);
+    color: white;
+}
+
+.btn-success:hover:not(:disabled) {
+    background: #059669;
+}
+
+.btn-danger {
+    background: var(--danger);
+    color: white;
+}
+
+.btn-danger:hover:not(:disabled) {
+    background: #dc2626;
+}
+
+.btn-secondary {
+    background: var(--secondary);
+    color: white;
+}
+
+.btn-secondary:hover:not(:disabled) {
+    background: var(--secondary-hover);
+}
+
+/* Setup Actions */
+.setup-actions {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+    justify-content: center;
+}
+
+/* Game Header */
+.game-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border);
+}
+
+.progress-info {
+    display: flex;
+    gap: 1.5rem;
+    font-size: 1rem;
+}
+
+.progress-info strong {
+    color: var(--primary);
+}
+
+/* Drug Display */
+.drug-display {
+    text-align: center;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--moa-light), var(--indications-light));
+    border-radius: 12px;
+    margin-bottom: 1rem;
+}
+
+.drug-display h2 {
+    font-size: 1.75rem;
+    color: var(--text);
+    margin-bottom: 0.25rem;
+}
+
+.drug-display .instruction {
+    color: var(--text-light);
+    font-size: 0.9rem;
+}
+
+/* Selection Tracker */
+.selection-tracker {
+    display: flex;
+    justify-content: center;
+    gap: 0.5rem;
+    flex-wrap: wrap;
+    margin-bottom: 1rem;
+}
+
+.tracker-item {
+    padding: 0.375rem 0.75rem;
+    border-radius: 20px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    background: var(--bg);
+    color: var(--text-light);
+    border: 2px solid var(--border);
+    transition: all 0.2s;
+}
+
+.tracker-item.selected {
+    border-color: var(--success);
+    background: var(--success-light);
+    color: var(--success);
+}
+
+.tracker-item[data-category="moa"].selected {
+    border-color: var(--moa);
+    background: var(--moa-light);
+    color: var(--moa);
+}
+
+.tracker-item[data-category="indications"].selected {
+    border-color: var(--indications);
+    background: var(--indications-light);
+    color: var(--indications);
+}
+
+.tracker-item[data-category="adverse"].selected {
+    border-color: var(--adverse);
+    background: var(--adverse-light);
+    color: var(--adverse);
+}
+
+.tracker-item[data-category="interactions"].selected {
+    border-color: var(--interactions);
+    background: var(--interactions-light);
+    color: var(--interactions);
+}
+
+.tracker-item[data-category="contraindications"].selected {
+    border-color: var(--contraindications);
+    background: var(--contraindications-light);
+    color: var(--contraindications);
+}
+
+/* Options Grid */
+.options-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+}
+
+.option-card {
+    padding: 1rem;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: all 0.2s;
+    border: 2px solid var(--border);
+    background: var(--card-bg);
+    text-align: left;
+    position: relative;
+}
+
+.option-card:hover:not(.disabled) {
+    border-color: var(--primary);
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.option-card.selected {
+    border-color: var(--primary);
+    background: #eef2ff;
+}
+
+.option-card .category-tag {
+    display: inline-block;
+    padding: 0.2rem 0.5rem;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    margin-bottom: 0.5rem;
+}
+
+.option-card[data-category="moa"] .category-tag {
+    background: var(--moa-light);
+    color: var(--moa);
+}
+
+.option-card[data-category="indications"] .category-tag {
+    background: var(--indications-light);
+    color: var(--indications);
+}
+
+.option-card[data-category="adverse"] .category-tag {
+    background: var(--adverse-light);
+    color: var(--adverse);
+}
+
+.option-card[data-category="interactions"] .category-tag {
+    background: var(--interactions-light);
+    color: var(--interactions);
+}
+
+.option-card[data-category="contraindications"] .category-tag {
+    background: var(--contraindications-light);
+    color: var(--contraindications);
+}
+
+.option-card .option-text {
+    font-size: 0.9rem;
+    line-height: 1.4;
+    color: var(--text);
+}
+
+.option-card.correct {
+    border-color: var(--success);
+    background: var(--success-light);
+}
+
+.option-card.incorrect {
+    border-color: var(--danger);
+    background: var(--danger-light);
+}
+
+.option-card.missed {
+    border-color: var(--warning);
+    background: var(--interactions-light);
+}
+
+.option-card.disabled {
+    pointer-events: none;
+    opacity: 0.8;
+}
+
+/* Game Actions */
+.game-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 1rem;
+}
+
+/* Feedback */
+.feedback {
+    margin-top: 1.5rem;
+    padding: 1.5rem;
+    border-radius: 12px;
+    background: var(--bg);
+    text-align: center;
+}
+
+#feedback-content {
+    margin-bottom: 1rem;
+}
+
+#feedback-content h3 {
+    font-size: 1.25rem;
+    margin-bottom: 0.5rem;
+}
+
+#feedback-content p {
+    color: var(--text-light);
+}
+
+.feedback.success {
+    background: var(--success-light);
+}
+
+.feedback.partial {
+    background: var(--interactions-light);
+}
+
+/* Results Panel */
+.results-summary {
+    display: flex;
+    justify-content: center;
+    gap: 2rem;
+    margin: 2rem 0;
+    flex-wrap: wrap;
+}
+
+.result-stat {
+    text-align: center;
+    padding: 1rem 2rem;
+    background: var(--bg);
+    border-radius: 12px;
+}
+
+.stat-value {
+    display: block;
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--primary);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--text-light);
+}
+
+#review-section {
+    margin-top: 2rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--border);
+}
+
+#review-section h3 {
+    margin-bottom: 1rem;
+}
+
+#missed-items {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.missed-item {
+    background: var(--bg);
+    border-radius: 8px;
+    padding: 1rem;
+    margin-bottom: 0.75rem;
+}
+
+.missed-item h4 {
+    color: var(--primary);
+    margin-bottom: 0.5rem;
+}
+
+.missed-item .correct-answer {
+    font-size: 0.85rem;
+    color: var(--text-light);
+}
+
+.missed-item .correct-answer strong {
+    color: var(--success);
+}
+
+.results-actions {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-top: 2rem;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+    .container {
+        padding: 1rem;
+    }
+
+    header h1 {
+        font-size: 1.75rem;
+    }
+
+    .options-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .progress-info {
+        flex-direction: column;
+        gap: 0.25rem;
+    }
+
+    .game-header {
+        flex-direction: column;
+        gap: 0.75rem;
+        text-align: center;
+    }
+
+    .selection-tracker {
+        gap: 0.375rem;
+    }
+
+    .tracker-item {
+        padding: 0.25rem 0.5rem;
+        font-size: 0.7rem;
+    }
+
+    .results-summary {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .setup-actions, .game-actions, .results-actions {
+        flex-direction: column;
+    }
+
+    .btn {
+        width: 100%;
+        justify-content: center;
+    }
+}
