@@ -373,26 +373,40 @@ class PharmMatch {
     generateOptions() {
         this.currentOptions = [];
         const usedTexts = new Set();
+        this.activeCategoryCount = 0;
 
-        // Add correct answers for each category
+        // For each category, add correct answer OR N/A
         this.categories.forEach(cat => {
             const correctText = this.currentDrug[cat.key];
             if (correctText && correctText.trim()) {
+                // Category has data — add the real correct answer
                 this.currentOptions.push({
                     category: cat.key,
                     categoryName: cat.name,
                     text: correctText,
-                    isCorrect: true
+                    isCorrect: true,
+                    isNA: false
                 });
                 usedTexts.add(correctText.toLowerCase());
+                this.activeCategoryCount++;
+            } else {
+                // Category is empty — N/A is the correct answer
+                this.currentOptions.push({
+                    category: cat.key,
+                    categoryName: cat.name,
+                    text: 'N/A — Not applicable for this drug',
+                    isCorrect: true,
+                    isNA: true
+                });
+                this.activeCategoryCount++;
             }
         });
 
-        // Add distractors from other drugs
+        // Add distractors from other drugs (one per category)
         const otherDrugs = this.drugs.filter(d => d.id !== this.currentDrug.id);
 
         this.categories.forEach(cat => {
-            // Get distractor for this category
+            // Always add a distractor for each category
             const distractorPool = otherDrugs
                 .filter(d => d[cat.key] && d[cat.key].trim() && !usedTexts.has(d[cat.key].toLowerCase()))
                 .map(d => d[cat.key]);
@@ -403,7 +417,8 @@ class PharmMatch {
                     category: cat.key,
                     categoryName: cat.name,
                     text: distractor,
-                    isCorrect: false
+                    isCorrect: false,
+                    isNA: false
                 });
                 usedTexts.add(distractor.toLowerCase());
             }
@@ -421,7 +436,7 @@ class PharmMatch {
 
         this.currentOptions.forEach((option, index) => {
             const card = document.createElement('div');
-            card.className = 'option-card';
+            card.className = `option-card${option.isNA ? ' na-card' : ''}`;
             card.dataset.category = option.category;
             card.dataset.index = index;
             card.innerHTML = `
@@ -566,20 +581,17 @@ class PharmMatch {
         // Store all correct answers as missed
         const missed = [];
         this.categories.forEach(cat => {
-            if (this.currentDrug[cat.key]) {
-                missed.push({
-                    category: cat.name,
-                    correct: this.currentDrug[cat.key]
-                });
-            }
+            const val = this.currentDrug[cat.key];
+            missed.push({
+                category: cat.name,
+                correct: val && val.trim() ? val : 'N/A — Not applicable for this drug'
+            });
         });
 
-        if (missed.length > 0) {
-            this.missedItems.push({
-                drug: this.currentDrug.name,
-                missed: missed
-            });
-        }
+        this.missedItems.push({
+            drug: this.currentDrug.name,
+            missed: missed
+        });
 
         this.totalAttempts += 5;
         this.nextDrug();

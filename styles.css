@@ -430,6 +430,16 @@ header h1 {
     background: var(--interactions-light);
 }
 
+.option-card.na-card {
+    border-style: dashed;
+    background: #f8fafc;
+}
+
+.option-card.na-card .option-text {
+    color: var(--secondary);
+    font-style: italic;
+}
+
 .option-card.disabled {
     pointer-events: none;
     opacity: 0.8;
